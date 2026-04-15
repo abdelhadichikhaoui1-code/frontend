@@ -76,9 +76,9 @@ This project is ready to be deployed on Netlify.
 	- `netlify.toml`
 	- `public/_redirects`
 3. Environment variable to configure in Netlify:
-	- `REACT_APP_API_URL=https://flowvia43-1.onrender.com/api`
+	- `REACT_APP_API_URL=https://flowvia-backend.onrender.com/api`
 
-The API client in `src/api.js` uses `REACT_APP_API_URL` first, then falls back to `https://flowvia43-1.onrender.com/api`.
+The API client in `src/api.js` uses `REACT_APP_API_URL` first, then falls back to `https://flowvia-backend.onrender.com/api`.
 
 ## Mobile Responsiveness
 
