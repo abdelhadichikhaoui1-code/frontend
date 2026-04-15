@@ -3,6 +3,16 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../../api';
 import Layout from '../../components/Layout';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://flowvia-backend.onrender.com/api';
+const BACKEND_ORIGIN = API_BASE_URL.replace(/\/api\/?$/, '');
+
+const resolveVideoSrc = (videoPath) => {
+  if (!videoPath) return '';
+  if (/^https?:\/\//i.test(videoPath)) return videoPath;
+  const normalizedPath = videoPath.startsWith('/') ? videoPath : `/${videoPath}`;
+  return `${BACKEND_ORIGIN}${normalizedPath}`;
+};
+
 function PatientSessionDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -60,9 +70,9 @@ function PatientSessionDetail() {
             {ex.videoPath && (
               <div style={{ flex: '1 1 250px', background: '#000', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
                 {(ex.videoPath.includes('youtube') || ex.videoPath.includes('vimeo')) ? (
-                  <iframe width="100%" height="200" src={ex.videoPath} title={ex.title} frameBorder="0" allowFullScreen style={{display:'block'}}></iframe>
+                  <iframe width="100%" height="200" src={resolveVideoSrc(ex.videoPath)} title={ex.title} frameBorder="0" allowFullScreen style={{display:'block'}}></iframe>
                 ) : (
-                  <video width="100%" height="200" controls style={{display:'block', objectFit: 'cover'}} src={ex.videoPath} />
+                  <video width="100%" height="200" controls style={{display:'block', objectFit: 'cover'}} src={resolveVideoSrc(ex.videoPath)} />
                 )}
               </div>
             )}
