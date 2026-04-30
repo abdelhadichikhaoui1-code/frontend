@@ -17,7 +17,7 @@ function TherapistDashboard() {
 
   return (
     <Layout role="therapist">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+      <div className="dashboard-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', marginTop: '10px' }}>
         <div>
           <h1 style={{ margin: 0 }}>Espace Thérapeute</h1>
           <p style={{ margin: '8px 0 0 0', color: 'var(--text-muted)', fontSize: '14px' }}>Supervisez les progrès des patients et créez des programmes globaux.</p>
@@ -45,7 +45,7 @@ function TherapistDashboard() {
                   <td style={{ padding: '16px 24px', color: 'var(--text-muted)' }}>{p.age} ans</td>
                   <td style={{ padding: '16px 24px', fontWeight: '600', color: 'var(--primary)' }}>{p.completedCount || 0}</td>
                   <td style={{ padding: '16px 24px' }}>
-                    <span style={{ display: 'inline-block', backgroundColor: '#fff3e0', color: '#e65100', padding: '4px 12px', borderRadius: '12px', fontWeight: '700', fontSize: '13px' }}>{p.score_global}%</span>
+                    <span style={{ display: 'inline-block', backgroundColor: '#fff3e0', color: '#e65100', padding: '4px 12px', borderRadius: '12px', fontWeight: '700', fontSize: '13px', marginLeft: '-10px' }}>{p.score_global}%</span>
                   </td>
                   <td style={{ padding: '16px 24px' }}>
                     <span style={{ display: 'inline-block', backgroundColor: '#e0f7fa', color: '#00838f', padding: '4px 12px', borderRadius: '12px', fontWeight: '600', fontSize: '12px', textTransform: 'uppercase' }}>{p.level}</span>

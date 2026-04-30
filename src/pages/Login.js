@@ -32,7 +32,7 @@ function Login() {
       
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '40px 20px' }}>
         <div className="card" style={{ width: 'min(100%, 300px)', padding: 'clamp(16px, 4vw, 24px)' }}>
-          <h1 style={{ textAlign: 'center', color: 'var(--primary)', marginBottom: '4px' }}>Flowvia</h1>
+          <h1 style={{ textAlign: 'center', color: 'var(--primary)', marginBottom: '4px' }}>Step By Step</h1>
           <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '24px' }}>Votre progression, à votre rythme</p>
           
           <form onSubmit={handleLogin}>

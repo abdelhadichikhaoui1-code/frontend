@@ -6,6 +6,7 @@ function Layout({ children, role }) {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user'));
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   // Notification logic placeholder : dot active si un message de motivation n'a pas été lu,
   // ou simplement afficher un modal au clic.
@@ -86,8 +87,12 @@ function Layout({ children, role }) {
     setIsMobileMenuOpen(false);
   };
 
+  const closeUserMenu = () => {
+    setIsUserMenuOpen(false);
+  };
+
   return (
-    <div className="layout-top">
+    <div className="layout-top" onClick={() => setIsUserMenuOpen(false)}>
       {toast.show && (
         <div className="toast-container">
           <Toast message={toast.message} type={toast.type} />
@@ -105,7 +110,7 @@ function Layout({ children, role }) {
             {isMobileMenuOpen ? '✕' : '☰'}
           </button>
           <Link to={user ? `/${user.role}/dashboard` : "/"} className="navbar-logo" style={{ textDecoration: 'none' }}>
-            <span style={{ fontSize: '24px' }}>🌿</span> Flowvia
+            Step By Step
           </Link>
         </div>
 
@@ -122,12 +127,34 @@ function Layout({ children, role }) {
               )}
             </div>
           )}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-muted)' }}>
-            <svg width="16" height="16" strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="currentColor">
-              <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M5 19V18C5 15.7909 6.79086 14 9 14H15C17.2091 14 19 15.7909 19 18V19" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <span className="user-name">{user?.nom}</span>
+          <div
+            className="navbar-user"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsUserMenuOpen((v) => !v);
+            }}
+          >
+            <button type="button" className="navbar-user-btn" aria-label="Menu utilisateur" aria-expanded={isUserMenuOpen}>
+              <svg width="16" height="16" strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="currentColor">
+                <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M5 19V18C5 15.7909 6.79086 14 9 14H15C17.2091 14 19 15.7909 19 18V19" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+
+            <div className={`navbar-user-menu ${isUserMenuOpen ? 'open' : ''}`} role="menu" aria-label="Menu utilisateur">
+              <div className="navbar-user-name">{user?.nom}</div>
+              <button
+                type="button"
+                className="navbar-user-logout"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  closeUserMenu();
+                  handleLogout();
+                }}
+              >
+                Déconnexion
+              </button>
+            </div>
           </div>
         </div>
       </nav>
@@ -162,12 +189,6 @@ function Layout({ children, role }) {
               </li>
             )}
           </ul>
-
-          <div className="sidebar-footer">
-            <button onClick={handleLogout} className="btn-logout-sidebar">
-              <span className="icon">→</span> <span className="sidebar-text">Déconnexion</span>
-            </button>
-          </div>
         </aside>
 
         <main className="main-container">

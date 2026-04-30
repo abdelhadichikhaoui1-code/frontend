@@ -70,20 +70,17 @@ function TherapistSessionManage() {
 
     try {
       if (editingId) {
-        await api.put(`/therapist/sessions/${editingId}`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        await api.put(`/therapist/sessions/${editingId}`, formData);
         window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Programme mis à jour !', type: 'success' } }));
       } else {
-        await api.post('/therapist/sessions', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        await api.post('/therapist/sessions', formData);
         window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Programme créé avec succès !', type: 'success' } }));
       }
       resetForm();
       fetchSessions();
     } catch (err) {
-      window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: "Erreur lors de l'enregistrement", type: 'error' } }));
+      const backendMsg = err?.response?.data?.message;
+      window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: backendMsg || "Erreur lors de l'enregistrement", type: 'error' } }));
     }
   };
 
@@ -102,7 +99,8 @@ function TherapistSessionManage() {
       window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Programme supprimé', type: 'success' } }));
       fetchSessions();
     } catch (err) {
-      window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: "Erreur suppression", type: 'error' } }));
+      const backendMsg = err?.response?.data?.message;
+      window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: backendMsg || "Erreur suppression", type: 'error' } }));
     }
   };
 

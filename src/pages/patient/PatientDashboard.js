@@ -23,7 +23,7 @@ function PatientDashboard() {
 
   // Motivation Engine
   let motivationMsg = "Continue … la discipline construit quelque chose de grand !";
-  let bannerStyle = { background: 'linear-gradient(135deg, #2E7D32 0%, #43a047 100%)' };
+  let bannerStyle = { background: 'linear-gradient(135deg, #cfc5ff 0%, #b8abff 100%)' };
 
   if (stats.lastSessionDate) {
     const lastDate = new Date(stats.lastSessionDate);
@@ -32,12 +32,12 @@ function PatientDashboard() {
 
     if (diffDays >= 3) {
       motivationMsg = `Rappel : Cela fait ${diffDays} jours que tu n'as pas pratiqué. Reprends le rythme, ne lâche rien 💪`;
-      bannerStyle = { background: 'linear-gradient(135deg, #f57c00 0%, #ffb74d 100%)' }; // Orange motivation
+      bannerStyle = { background: 'linear-gradient(135deg, #c7bcff 0%, #afa1fb 100%)' };
     } else if (stats.score_global > 70) {
       motivationMsg = "Félicitations pour ton assiduité, ton score global est excellent ! 🌟";
     }
   } else if (stats.completedSessions === 0) {
-    motivationMsg = "Bienvenue sur Flowvia ! Commence ta première séance pour obtenir ton niveau.";
+    motivationMsg = "Bienvenue sur Step By Step ! Commence ta première séance pour obtenir ton niveau.";
   }
 
   return (
@@ -85,7 +85,7 @@ function PatientDashboard() {
         </div>
       </div>
 
-      <div style={{ marginTop: '32px', textAlign: 'center' }}>
+      <div className="dashboard-header" style={{ marginTop: '24px' }}>
         <Link to="/patient/sessions" className="btn" style={{ padding: '14px 32px', fontSize: '16px' }}>Consulter les programmes</Link>
       </div>
     </Layout>

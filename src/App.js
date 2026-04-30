@@ -12,13 +12,10 @@ import PatientSessionDetail from './pages/patient/PatientSessionDetail';
 import TherapistDashboard from './pages/therapist/TherapistDashboard';
 import TherapistSessionManage from './pages/therapist/TherapistSessionManage';
 
-import AudioPlayer from './components/AudioPlayer';
-
 function App() {
   return (
     <Router>
       <div className="App">
-        <AudioPlayer />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
