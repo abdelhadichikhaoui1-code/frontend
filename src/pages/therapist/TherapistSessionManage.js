@@ -130,7 +130,37 @@ function TherapistSessionManage() {
   return (
     <Layout role="therapist">
       <h1 style={{ marginBottom: '24px' }}>Mes Programmes</h1>
-
+      
+      {/* Sticky Progress Bar for Mobile/Global view */}
+      {uploading && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          backgroundColor: 'white',
+          zIndex: 9999,
+          boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+          padding: '12px 16px'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px', fontSize: '12px', fontWeight: 'bold' }}>
+            <span style={{ color: 'var(--primary)' }}>
+              {progress < 100 ? `Upload : ${progress}%` : 'Traitement Drive...'}
+            </span>
+            <span style={{ color: 'var(--text-muted)' }}>Ne fermez pas la page</span>
+          </div>
+          <div style={{ width: '100%', height: '6px', backgroundColor: '#e9ecef', borderRadius: '3px', overflow: 'hidden' }}>
+            <div 
+              style={{ 
+                width: `${progress}%`, 
+                height: '100%', 
+                backgroundColor: 'var(--primary)', 
+                transition: 'width 0.3s ease'
+              }} 
+            />
+          </div>
+        </div>
+      )}
       <div style={{ display: 'flex', gap: '32px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
         <div style={{ flex: '1 1 400px' }}>
           <div className="card">
