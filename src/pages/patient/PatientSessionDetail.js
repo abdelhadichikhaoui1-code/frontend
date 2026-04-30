@@ -13,17 +13,25 @@ const resolveVideoSrc = (videoPath) => {
   return `${BACKEND_ORIGIN}${normalizedPath}`;
 };
 
+const getDriveDirectLink = (url = '') => {
+  const match = url.match(/\/d\/(.+?)\/(view|edit)/);
+  if (match && match[1]) {
+    return `https://drive.google.com/uc?export=download&id=${match[1]}`;
+  }
+  return url;
+};
+
 const toEmbedSrc = (input = '') => {
   const url = String(input || '').trim();
   if (!url) return '';
 
   // Google Drive
   if (url.includes('drive.google.com')) {
-    // Convert /view or /edit to /preview
-    return url.replace(/\/(view|edit)(\?.*)?$/, '/preview');
+    // We prefer the direct link for the <video> tag if possible
+    return getDriveDirectLink(url);
   }
 
-  // YouTube fallback (if some old links remain)
+  // YouTube fallback
   const youtubeMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/i);
   if (youtubeMatch) {
     return `https://www.youtube-nocookie.com/embed/${youtubeMatch[1]}?rel=0`;
@@ -88,7 +96,8 @@ function PatientSessionDetail() {
           <div key={ex._id} className="card session-exercise-card" style={{ display: 'flex', flexWrap: 'wrap', gap: '24px', padding: '24px', alignItems: 'flex-start' }}>
             {ex.videoPath && (
               <div className="session-video-wrap" style={{ flex: '1 1 250px', background: '#000', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-                {(ex.videoPath.includes('drive.google.com') || ex.videoPath.includes('youtube.com') || ex.videoPath.includes('youtu.be') || ex.videoPath.includes('vimeo')) ? (
+                {/* Check if it's a Drive link or YouTube/Vimeo to decide between iframe and <video> */}
+                {(ex.videoPath.includes('youtube.com') || ex.videoPath.includes('youtu.be') || ex.videoPath.includes('vimeo')) ? (
                   <iframe
                     width="100%"
                     height="200"
@@ -100,7 +109,13 @@ function PatientSessionDetail() {
                     style={{display:'block'}}
                   />
                 ) : (
-                  <video width="100%" height="200" controls style={{display:'block', objectFit: 'cover'}} src={resolveVideoSrc(ex.videoPath)} />
+                  <video 
+                    width="100%" 
+                    height="200" 
+                    controls 
+                    style={{display:'block', objectFit: 'cover'}} 
+                    src={ex.videoPath.includes('drive.google.com') ? getDriveDirectLink(ex.videoPath) : resolveVideoSrc(ex.videoPath)} 
+                  />
                 )}
               </div>
             )}
